@@ -130,23 +130,50 @@ namespace Filminurk.Controllers
                 IsPrviate = stl.IsPrviate,
                 ListOfMovies = stl.ListOfMovies,
                 IsReported = stl.IsReported,
-                Image = _context.FilesToDatabase
-                .Where(i => i.ListID == stl.FavouriteListID)
-                .Select(si => new FavouriteListIndexImageViewModel
-                {
-                    ImageID = si.ImageID,
-                    ListID = si.ListID,
-                    ImageData = si.ImageData,
-                    ImageTitle = si.ImageTitle,
-                    Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(si.ImageData))
-                }).ToList().First()
-            });
+                //Image = _context.FilesToDatabase
+                //.Where(i => i.ListID == stl.FavouriteListID)
+                //.Select(si => new FavouriteListIndexImageViewModel
+                //{
+                //    ImageID = si.ImageID,
+                //    ListID = si.ListID,
+                //    ImageData = si.ImageData,
+                //    ImageTitle = si.ImageTitle,
+                //    Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(si.ImageData))
+                //}).ToList().First()
+            }).First();
             //add viewdata attribute here later to discern between user and admin
             if(thisList == null)
             {
                 return NotFound();
             }
             return View("Details",thisList);
+        }
+
+        [HttpPost]
+        public IActionResult UserTogglePrivacy(Guid id)
+        {
+            FavouriteList thisList = _favouriteListsServices.DetailsAsync(id);
+
+            FavouriteListDTO updatedList = new FavouriteListDTO();
+            updatedList.FavouriteListID= thisList.FavouriteListID;
+            updatedList.ListBelongsToUser= thisList.ListBelongsToUser;
+            updatedList.ListName= thisList.ListName;
+            updatedList.ListDescription= thisList.ListDescription;
+            updatedList.IsPrviate= thisList.IsPrviate;
+            updatedList.ListOfMovies= thisList.ListOfMovies;
+            updatedList.IsReported= thisList.IsReported;
+            updatedList.IsMovieOrActor= thisList.IsMovieOrActor;
+            updatedList.ListCreateAt= thisList.ListCreateAt;
+            updatedList.ListModifiedAt= DateTime.Now;
+            updatedList.ListDeletedAt= thisList.ListDeletedAt;
+            
+
+            thisList.IsPrviate = !thisList.IsPrviate;
+            _favouriteListsServices.Equals(thisList);
+            return View("Details");
+
+            
+            thisList.IsPrviate = true;
         }
 
         private List<Guid> MovieToId(List<Movie> listOfMovies)
