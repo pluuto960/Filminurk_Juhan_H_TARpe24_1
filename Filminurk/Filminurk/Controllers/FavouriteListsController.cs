@@ -99,17 +99,54 @@ namespace Filminurk.Controllers
             newListDto.ListBelongsToUser = "00000000 - 0000 - 0000 - 000000000001";
             newListDto.ListDeletedAt= (DateTime)vm.ListDeletedAt;
 
-            List<Guid> convertedIDS=new List<Guid>();
-            if (newListDto.ListOfMovies != null)
-            {
-                convertedIDS = MovieToId(newListDto.ListOfMovies);
-            }
-            var newList = await _favouriteListsServices.Create(newListDto, convertedIDS);
-            if (newList != null) 
+            //List<Guid> convertedIDS=new List<Guid>();
+            //if (newListDto.ListOfMovies != null)
+            //{
+            //    convertedIDS = MovieToId(newListDto.ListOfMovies);
+            //}
+            var newList = _favouriteListsServices.Create(newListDto);
+            if (newList == null) 
             {
                 return BadRequest(); 
             }
             return RedirectToAction("Index", vm);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UserDetails(Guid id, Guid thisuserid)
+        {
+            if(id==null || thisuserid == null)
+            {
+                return BadRequest();
+                //TODO: return corresponding errorviews. id not found for listm and user login error for userid
+            }
+            var thisList = _context.FavouriteLists.Where(tl => tl.FavouriteListID == id && tl.ListBelongsToUser == thisuserid.ToString()).Select(stl => new FavouriteListUserDetailsViewModel
+            {
+                FavouriteListID = stl.FavouriteListID,
+                ListBelongsToUser = stl.ListBelongsToUser,
+                IsMovieOrActor = stl.IsMovieOrActor,
+                ListName = stl.ListName,
+                ListDescription = stl.ListDescription,
+                IsPrviate = stl.IsPrviate,
+                ListOfMovies = stl.ListOfMovies,
+                IsReported = stl.IsReported,
+                Image = _context.FilesToDatabase
+                .Where(i => i.ListID == stl.FavouriteListID)
+                .Select(si => new FavouriteListIndexImageViewModel
+                {
+                    ImageID = si.ImageID,
+                    ListID = si.ListID,
+                    ImageData = si.ImageData,
+                    ImageTitle = si.ImageTitle,
+                    Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(si.ImageData))
+                }).ToList().First()
+            });
+            //add viewdata attribute here later to discern between user and admin
+            if(thisList == null)
+            {
+                return NotFound();
+            }
+            return View("Details",thisList);
         }
 
         private List<Guid> MovieToId(List<Movie> listOfMovies)
@@ -120,7 +157,7 @@ namespace Filminurk.Controllers
                 result.Add(movie.ID);
             }
             return result;
-        }
+        }//sss
 
     }
 }
