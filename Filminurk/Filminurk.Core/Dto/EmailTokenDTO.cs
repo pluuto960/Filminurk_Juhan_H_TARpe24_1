@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Filminurk.Core.Dto
 {
-    internal class EmailTokenDTO
+    public class EmailTokenDTO: EmailDTO
     {
+        //HOMEWORK OBJECT
+        public string Token { get; set; }
     }
 }

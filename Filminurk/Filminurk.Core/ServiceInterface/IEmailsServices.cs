@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Filminurk.Core.Dto;
 
 namespace Filminurk.Core.ServiceInterface
 {
-    internal interface IEmailsServices
+    public interface IEmailsServices
     {
+        void SendEmail(EmailDTO dTO);
+
+        //HOMEWORK LOCATION
     }
 }

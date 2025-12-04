@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Filminurk.Core.Dto
 {
-    internal class EmailDTO
+    public class EmailDTO
     {
+        public string SendToThisAddress { get; set; }
+        public string EmailSubject { get; set; }
+        public string EmailContent { get; set; }
     }
 }
