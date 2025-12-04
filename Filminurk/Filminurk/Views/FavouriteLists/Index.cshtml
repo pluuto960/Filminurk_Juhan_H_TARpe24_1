@@ -47,24 +47,30 @@
 				{
 					@foreach (var list in Model)
 					{
+						if(list.ListDeletedAt==null)
+						{
 						<table>
 							<tr>
 								<td colspan="2">
-									<a asp-action="ListDetailsListOwner" asp-controller="FavouriteLists" asp-route-id="@list.ListBelongsToUser">@list.ListName</a>
+										<a asp-action="UserDetails" asp-controller="FavouriteLists" asp-route-id="@list.FavouriteListID" asp-route-thisuserid="@list.ListBelongsToUser">@list.ListName</a>
 								</td>
 							</tr>
 							<tr>
 								<td>
+									@list.ListDeletedAt.ToString()
 									@foreach (var image in list.Image)
 									{
 											<partial name="_ImageIndex" model="image"></partial>
 									}
+										<img width="128" src="~/lib/defaultassets/image/noposter.png" />
 								</td>
 								<td>@list.ListDescription</td>
 							</tr>
 						</table>
-						rowNumber++;
+						}
+						
 					}
+					rowNumber++;
 				}
 			</tbody>
 		</table>
