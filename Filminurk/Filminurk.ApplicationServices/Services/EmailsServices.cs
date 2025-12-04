@@ -11,7 +11,7 @@ using MimeKit;
 
 namespace Filminurk.ApplicationServices.Services
 {
-    internal class EmailsServices : IEmailsServices
+    public class EmailsServices : IEmailsServices
     {
         private readonly IConfiguration _configuration;
 
