@@ -99,15 +99,25 @@ namespace Filminurk.Controllers
             newListDto.ListBelongsToUser = "00000000 - 0000 - 0000 - 000000000001";
             newListDto.ListDeletedAt= (DateTime)vm.ListDeletedAt;
 
-            //List<Guid> convertedIDS=new List<Guid>();
-            //if (newListDto.ListOfMovies != null)
-            //{
-            //    convertedIDS = MovieToId(newListDto.ListOfMovies);
-            //}
-            var newList = _favouriteListsServices.Create(newListDto);
-            if (newList == null) 
+            var listofmoviestoadd = new List<Movie>();
+            foreach (var movieId in tempParse)
             {
-                return BadRequest(); 
+                var thismovie = _context.Movies.Where(tm => tm.ID == movieId).ToArray().First();
+                listofmoviestoadd.Add((Movie)thismovie);
+            }
+            newListDto.ListOfMovies = listofmoviestoadd;
+
+            /*
+            List<Guid> convertedIDs = new List<Guid>();
+            if (newListDto.ListOfMovies != null)
+            {
+                convertedIDs = MovieToId(newListDto.ListOfMovies);
+            }
+            */
+            var newList = await _favouriteListsServices.Create(newListDto/* ,convertedIDs*/);
+            if (newList == null)
+            {
+                return BadRequest();
             }
             return RedirectToAction("Index", vm);
         }
