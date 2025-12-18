@@ -5,20 +5,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Azure.Identity;
+using Filminurk.Core.Domain;
+using Filminurk.Core.Dto.AccountsDTOs;
 using Filminurk.Core.ServiceInterface;
 using Microsoft.AspNetCore.Identity;
 
 namespace Filminurk.ApplicationServices.Services
 {
-    internal class AccountsServices : IAccountsServices
+    public class AccountsServices : IAccountsServices
     {
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailsServices _emailsServices;
 
-        public AccountsServices(UserManager<ApplicationUser> userManager, 
-                                SignInManager<ApplicationUser> signInManager, 
-                                IEmailsServices emailsServices)
+        public AccountsServices
+            (
+                UserManager<ApplicationUser> userManager, 
+                SignInManager<ApplicationUser> signInManager, 
+                IEmailsServices emailsServices
+            )
         {
             _userManager= userManager;
             _signInManager= signInManager;
@@ -28,7 +33,7 @@ namespace Filminurk.ApplicationServices.Services
         {
             var user = new ApplicationUser
             {
-                Username = userDTO.Email,
+                UserName = userDTO.Email,
                 Email = userDTO.Email,
                 ProfileType = userDTO.ProfileType,
                 DisplayName = userDTO.DisplayName,

@@ -16,7 +16,7 @@ namespace Filminurk.Models.Accounts
         public string NewPassword { get; set; }
         [DataType(DataType.Password)]
         [Display(Name = "Kirjuta oma uus parool uuesti:")]
-        [Compare("NewPassword", ErrorMessage ="Paroolid ei kattu, palun proovi uuesti")]
-        public string ConfirmNewPassword    
+        [Compare("NewPassword", ErrorMessage = "Paroolid ei kattu, palun proovi uuesti")]
+        public string ConfirmNewPassword;    
     }
 }

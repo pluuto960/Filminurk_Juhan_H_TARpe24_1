@@ -100,7 +100,7 @@ namespace Filminurk.Controllers
         [AllowAnonymous]
         public async Task<IActionResult>ForgotPassword(ForgotPasswordViewModel model)
         {
-            if (Modeltate.IsValid) 
+            if (ModelState.IsValid) 
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user !=null && await _userManager.IsEmailConfirmedAsync(user))
@@ -270,7 +270,7 @@ namespace Filminurk.Controllers
                 }
                 if (result.IsNotAllowed)
                 {
-                    ModelState.AddModelError("", "Sisselogimine ebaõnnestus, kasutaja keelustatud")
+                    ModelState.AddModelError("", "Sisselogimine ebaõnnestus, kasutaja keelustatud");
                 }
                 if (result.IsLockedOut)
                 {
