@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel;
 using Azure.Identity;
+using Filminurk.Core.Domain;
 using Filminurk.Core.ServiceInterface;
 using Filminurk.Data;
+using Filminurk.Models.Accounts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
@@ -12,7 +14,7 @@ namespace Filminurk.Controllers
     public class AccountsController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly FilminurkTARpe24Context _context;
         private readonly IEmailsServices _emailsServices;
 
@@ -65,7 +67,7 @@ namespace Filminurk.Controllers
         }
 
         [HttpPost]
-        public async Task<IactionResult> ChangePassword(ChangePasswordViewModel model)
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
             if (ModelState.IsValid) 
             {
@@ -83,7 +85,7 @@ namespace Filminurk.Controllers
                     }
                     return View();
                 }
-                await _signInManager.RefreshSignSignInAsync(user);
+                await _signInManager.RefreshSignInAsync(user);
                 return View("ChangePasswordConfirmation");
             }
             return View(model);
@@ -147,7 +149,7 @@ namespace Filminurk.Controllers
                         {
                             await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.UtcNow);
                         }
-                        await _signInManager.SingOutAsync();
+                        await _signInManager.SignOutAsync();
                         await _userManager.DeleteAsync(user);
                         return RedirectToAction("ResetPasswordConfirmation", "Accounts");
                     }
@@ -182,14 +184,14 @@ namespace Filminurk.Controllers
         }
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register(RegisterViewmodel model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser()
                 {
                     UserName = model.Email,
-                    Email = model,
+                    Email = model.Email,
                     ProfileType = model.ProfileType,
                     DisplayName = model.DisplayName,
                     AvatarImageID = Guid.NewGuid().ToString(),

@@ -10,9 +10,9 @@ namespace Filminurk.Models.Accounts
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        [Display(Name = "Jäte minu sisselogimine meelde")]
+        [Display(Name = "Jäta minu sisselogimine meelde")]
         public bool RememberMe { get; set; }
-        public bool ReturnUrl { get; set; }
+        public string ReturnUrl { get; set; }
         public bool ProfileType { get; set; }
     }
 }
