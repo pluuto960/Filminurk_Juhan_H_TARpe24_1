@@ -23,16 +23,19 @@ namespace Filminurk.ApplicationServices.Services
             using (var HttpClient = new HttpClient())
             {
                 HttpClient.BaseAddress = new Uri("https://dataservice.accuweather.com/locations/v1/cities/search");
-                HttpClient.BaseAddress = new Uri(baseUrl);
                 HttpClient.DefaultRequestHeaders.Accept.Clear();
                 HttpClient.DefaultRequestHeaders.Accept.Add(
                     new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json")
                     );
                 var response = HttpClient.GetAsync($"?apikey={apikey}&q={dto.CityName}").GetAwaiter().GetResult();
                 var jsonResponse = await response.Content.ReadAsStringAsync();
-                List<AccuCityCodeRootDTO> codeData=JsonSerializer.Deserialize<List<AccuCityCodeRootDTO>>(jsonResponse);
+                using (JsonDocument doc= JsonDocument.Parse(jsonResponse))
+                {
+                    JsonElement root = doc.RootElement;
+                    dto.CityCode = root[0].GetProperty("Key").ToString();
+                }
 
-                dto.CityCode = codeData[0].Key;
+                
             }
 
           
