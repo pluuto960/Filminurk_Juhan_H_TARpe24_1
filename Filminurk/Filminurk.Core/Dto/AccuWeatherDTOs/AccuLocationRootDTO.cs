@@ -14,7 +14,7 @@ namespace Filminurk.Core.Dto.AccuWeatherDTOs
     }
     public class Headline
     {
-        public DateTime EffectiveDate { get; set; }
+        public string EffectiveDate { get; set; }
         public int EffectiveEpochDate { get; set; }
         public int Severity { get; set; }
         public string Text { get; set; }
@@ -29,7 +29,6 @@ namespace Filminurk.Core.Dto.AccuWeatherDTOs
         public string Date { get; set; }
         public int EpochDate { get; set; }
         public Temperature Temperature { get; set; }
-        public RealFeelTemperature RealFeelTemperature { get; set; }
         public Day Day { get; set; }
         public Night Night { get; set; }
         public string[] Sources { get; set; }
