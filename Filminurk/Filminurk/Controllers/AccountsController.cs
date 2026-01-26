@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using Azure.Identity;
 using Filminurk.Core.Domain;
+using Filminurk.Core.Dto;
 using Filminurk.Core.ServiceInterface;
 using Filminurk.Data;
 using Filminurk.Models.Accounts;
@@ -205,6 +206,13 @@ namespace Filminurk.Controllers
                     //HOMEWORK TASK: koosta email kasutajalt p2rineva aadressile saatmiseks, kasutaja saab oma postkastis k2tte emaili
                     //kinnituslingiga, mille jaos kasutatakse tokenit. siin tuleb v2lja kutsuda vastav, uus, emaili saatmise meetod, mis saadab
                     //6ige sisuga kirja
+                    var dto = new EmailDTO
+                    {
+                        SendToThisAddress = user.Email,
+                        EmailSubject = "Email Confirmation",
+                        EmailContent = $"Vajuta sellele toredale lingile. \n{confimationLink}"
+                    };
+                    _emailsServices.SendEmail(dto);
                 }
                 return RedirectToAction("Index", "Home");
             }
@@ -231,6 +239,11 @@ namespace Filminurk.Controllers
             }
             return BadRequest();
         }
+        [HttpPost]
+        public async Task<IActionResult> ConfirmEmail()
+        {
+            return RedirectToAction("LoginPost", "Accounts");
+        }
 
         [HttpGet]
         [AllowAnonymous]
@@ -243,6 +256,7 @@ namespace Filminurk.Controllers
             return View(vm);
         }
         [HttpPost]
+        [ActionName("LoginPost")]
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model, string? returnURL)
         {
