@@ -22,11 +22,13 @@ namespace Filminurk.Controllers
         public AccountsController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            FilminurkTARpe24Context context)
+            FilminurkTARpe24Context context,
+            IEmailsServices emailServices)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
+            _emailsServices = emailServices;
         }
         [HttpGet]
         public async Task<IActionResult> AddPassword()
@@ -294,7 +296,7 @@ namespace Filminurk.Controllers
                 }
                 ModelState.AddModelError("", "Sisselogimine ebaõnnestus, kontakteeru administraatoriga");
             }
-            return View(model);
+            return View("Login", model);
         }
         [HttpPost]
         public async Task<IActionResult> Logout()

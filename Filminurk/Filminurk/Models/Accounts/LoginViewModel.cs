@@ -12,7 +12,7 @@ namespace Filminurk.Models.Accounts
         public string Password { get; set; }
         [Display(Name = "Jäta minu sisselogimine meelde")]
         public bool RememberMe { get; set; }
-        public string ReturnUrl { get; set; }
+        public string? ReturnUrl { get; set; }
         public bool ProfileType { get; set; }
     }
 }
