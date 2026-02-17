@@ -21,4 +21,8 @@
     <ProjectReference Include="..\Filminurk.Data\Filminurk.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Chat\" />
+  </ItemGroup>
+
 </Project>

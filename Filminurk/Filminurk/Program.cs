@@ -4,6 +4,7 @@ using Filminurk.Core.ServiceInterface;
 using Filminurk.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Filminurk.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,9 @@ builder.Services.AddScoped<IUserCommentsServices, UserCommentsServices>();
 builder.Services.AddScoped<IEmailsServices, EmailsServices>();
 builder.Services.AddScoped<IAccountsServices, AccountsServices>();
 builder.Services.AddScoped<IWeatherForecastServices, WeatherForecastServices>();
-builder.Services.AddDbContext<FilminurkTARpe24Context>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); ;
+builder.Services.AddRazorPages();
+builder.Services.AddSignalR();
+builder.Services.AddDbContext<FilminurkTARpe24Context>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); 
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
@@ -43,10 +46,13 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
+app.MapHub<ChatHub>("/chatHub");
+app.MapRazorPages();
 app.UseAuthorization();
 
 app.MapControllerRoute(
