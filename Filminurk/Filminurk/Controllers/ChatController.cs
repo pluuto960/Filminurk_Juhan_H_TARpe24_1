@@ -16,12 +16,16 @@ namespace Filminurk.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             if (!_signInManager.IsSignedIn(User))
             {
                 return RedirectToAction("Login", "Account");
             }
+
+            var user = await _userManager.GetUserAsync(User);
+            ViewData["ScreenName"] = user.DisplayName;
+            
             return View();
         }
     }
