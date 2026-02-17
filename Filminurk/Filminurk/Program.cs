@@ -47,16 +47,17 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseStaticFiles();  
 app.UseRouting();
 
-app.UseDefaultFiles();
-app.UseStaticFiles();
-app.MapHub<ChatHub>("/chatHub");
-app.MapRazorPages();
+app.UseAuthentication();   
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+app.MapRazorPages();
+
+app.MapHub<ChatHub>("/chatHub");
 app.Run();
