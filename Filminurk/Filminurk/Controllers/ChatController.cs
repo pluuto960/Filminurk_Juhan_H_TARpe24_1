@@ -20,7 +20,7 @@ namespace Filminurk.Controllers
         {
             if (!_signInManager.IsSignedIn(User))
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Accounts");
             }
 
             var user = await _userManager.GetUserAsync(User);
