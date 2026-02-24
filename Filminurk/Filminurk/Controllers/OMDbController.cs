@@ -42,7 +42,7 @@ namespace Filminurk.Controllers
                 Director = omdb.Director,
                 CurrentRating = double.TryParse(omdb.imdbRating, out var r) ? r : null,
                 Actors = omdb.Actors?.Split(", ").ToList(),
-                FirstPublished = DateOnly.TryParse(omdb.Released, out var d) ? d : DateOnly.MinValue,
+                FirstPublished = DateOnly.TryParseExact(omdb.Released,"dd MMM yyyy",System.Globalization.CultureInfo.InvariantCulture,System.Globalization.DateTimeStyles.None,out var d) ? d : DateOnly.MinValue,
                 Files = new List<IFormFile>()  // tühi, sest pilti importida ei saa
             };
 
