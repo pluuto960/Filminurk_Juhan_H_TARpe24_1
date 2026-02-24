@@ -20,6 +20,7 @@ builder.Services.AddScoped<IAccountsServices, AccountsServices>();
 builder.Services.AddScoped<IWeatherForecastServices, WeatherForecastServices>();
 builder.Services.AddRazorPages();
 builder.Services.AddSignalR();
+builder.Services.AddHttpClient<IOMDbServices, OMDbServices>();
 builder.Services.AddDbContext<FilminurkTARpe24Context>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); 
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>

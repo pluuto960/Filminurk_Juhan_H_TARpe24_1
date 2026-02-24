@@ -1,0 +1,14 @@
+﻿@model OMDbImportViewModel
+
+<h2>Impordi film OMDb-st</h2>
+
+@if (Model.Message != null)
+{
+        <p style="color:green">@Model.Message</p>
+}
+
+<form method="post" asp-action="Import">
+    <label>Filmi nimi:</label>
+    <input asp-for="SearchTitle" type="text" />
+    <button type="submit">Impordi</button>
+</form>

@@ -8,10 +8,10 @@ namespace Filminurk.Data
 {
     class EnvironmentExample //rename class to just "Environment"
     {
-		public static string smtpaddress = ""; //server address for sending emails via smtp //smtp.gmail.com
+        public static string smtpaddress = ""; //server address for sending emails via smtp //smtp.gmail.com
         public static string gmailapppassword = ""; //password for user, that has access to this server(google app pw)
-		public static string gmailusername = ""; //username of email sending user (gmail account)
+        public static string gmailusername = ""; //username of email sending user (gmail account)
         public static string accuweatherkey = ""; // api key to use accuweather services
-
+        public static string omdbApiKey = ""; // api key to use omdb services
     }
 }
